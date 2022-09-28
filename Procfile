@@ -1,0 +1,1 @@
+web: gunicorn home_safety_server.wsgi --log-file -
