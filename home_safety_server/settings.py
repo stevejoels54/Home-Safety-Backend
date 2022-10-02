@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 import os.path
+import dj_database_url
+import dotenv
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -98,20 +100,23 @@ WSGI_APPLICATION = 'home_safety_server.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-DATABASES = {
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.sqlite3',
-    #     'NAME': BASE_DIR / 'db.sqlite3',
-    # }
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'dfnmvra958k65p',
-        'USER': 'xjjxkejtnlwvae',
-        'PASSWORD': 'd3659ca374492c905830f16e731f964961d139399cfa9141a3190e7c0e9ec0ca',
-        'HOST': 'ec2-35-170-146-54.compute-1.amazonaws.com',
-        'PORT':  '5432',
-    }
-}
+# DATABASES = {
+#     # 'default': {
+#     #     'ENGINE': 'django.db.backends.sqlite3',
+#     #     'NAME': BASE_DIR / 'db.sqlite3',
+#     # }
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'dfnmvra958k65p',
+#         'USER': 'xjjxkejtnlwvae',
+#         'PASSWORD': 'd3659ca374492c905830f16e731f964961d139399cfa9141a3190e7c0e9ec0ca',
+#         'HOST': 'ec2-35-170-146-54.compute-1.amazonaws.com',
+#         'PORT':  '5432',
+#     }
+# }
+
+DATABASES = {}
+DATABASES['default'] = dj_database_url.config(conn_max_age=600)
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
