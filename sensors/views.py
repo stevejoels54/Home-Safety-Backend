@@ -64,10 +64,10 @@ def getValuesTrend(request):
         for i in range(start, start+721, 120):
             values.append(SensorData.objects.get(id=i))
             serializer = SensorDataSerializer(values, many=True)
-        return JsonResponse({'values': serializer.data}, status=201)
+        return JsonResponse({'sensorData': serializer.data}, status=201)
     else:
         values = []
         for i in range(1, value_id+1, 120):  # get data id in intervals of 120 (every 10mins)
             values.append(SensorData.objects.get(id=i))
             serializer = SensorDataSerializer(values, many=True)
-        return JsonResponse({'values': serializer.data}, status=201)
+        return JsonResponse({'sensorData': serializer.data}, status=201)
