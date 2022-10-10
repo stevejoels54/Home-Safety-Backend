@@ -7,7 +7,6 @@ from sensors.serializers import SensorSerializer, SensorDataSerializer
 from rest_framework import status
 import json
 
-# Create your views here.
 
 # get most recently added Sensor Data from database and return it as JSON_RESPONSE
 
@@ -31,6 +30,7 @@ def getSensorDataList(request):
 
 # function to post sensor data to database
 
+
 @require_http_methods(["POST"])
 def postSensorData(request):
     if request.method == "POST":
@@ -51,3 +51,28 @@ def postSensorData(request):
                 return JsonResponse({'message': "Invalid Data"}, status=401)
 
     return JsonResponse({'message': "Invalid Data"}, status=401)
+
+# get sensor data trend for the last 1 hour
+
+
+def getValuesTrend(request):
+    sensorData = SensorData.objects.all().order_by('-id')[0]
+    value_id = sensorData.id
+    if (value_id > 720):
+        start = value_id - 720
+        x = 0
+        # get data id in intervals of 120 (every 10mins)
+        for i in range(start, start+721, 120):
+            values[x] = SensorData.objects.get(id=i)
+            x = x + 1
+            json_values = json.dumps(values)
+        return JsonResponse({'values': json_values}, status=201)
+    else:
+        values = []
+        x = 0
+        for i in range(1, value_id+1, 120):  # get data id in intervals of 120 (every 10mins)
+            values[x] = SensorData.objects.get(id=i)
+            x = x + 1
+            # convert values to JSON and return it  as JSON_RESPONSE
+            json_values = json.dumps(values)
+        return JsonResponse({'values': json_values}, status=201)
