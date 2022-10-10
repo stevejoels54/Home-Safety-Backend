@@ -30,7 +30,6 @@ def getSensorDataList(request):
 
 # function to post sensor data to database
 
-
 @require_http_methods(["POST"])
 def postSensorData(request):
     if request.method == "POST":
@@ -60,19 +59,16 @@ def getValuesTrend(request):
     value_id = sensorData.id
     if (value_id > 720):
         start = value_id - 720
-        x = 0
+        values = []
         # get data id in intervals of 120 (every 10mins)
         for i in range(start, start+721, 120):
-            values[x] = SensorData.objects.get(id=i)
-            x = x + 1
+            values.append(SensorData.objects.get(id=i))
             json_values = json.dumps(values)
         return JsonResponse({'values': json_values}, status=201)
     else:
         values = []
-        x = 0
         for i in range(1, value_id+1, 120):  # get data id in intervals of 120 (every 10mins)
-            values[x] = SensorData.objects.get(id=i)
-            x = x + 1
+            values.append(SensorData.objects.get(id=i))
             # convert values to JSON and return it  as JSON_RESPONSE
             json_values = json.dumps(values)
         return JsonResponse({'values': json_values}, status=201)
