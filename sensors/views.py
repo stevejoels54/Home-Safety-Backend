@@ -70,5 +70,6 @@ def getValuesTrend(request):
         for i in range(1, value_id+1, 120):  # get data id in intervals of 120 (every 10mins)
             values.append(SensorData.objects.get(id=i))
             # convert values to JSON and return it  as JSON_RESPONSE
-            json_values = json.dumps(values)
-        return JsonResponse({'values': json_values}, status=201)
+            serializer = SensorDataSerializer(values, many=True)
+            #json_values = json.dumps(values)
+        return JsonResponse({'values': serializer.data}, status=201)
