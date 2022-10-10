@@ -51,7 +51,7 @@ def postSensorData(request):
 
     return JsonResponse({'message': "Invalid Data"}, status=401)
 
-# get sensor data trend for the last 1 hour
+# get sensor data trend for the last 1 hour in 10 minutes intervals
 
 
 def getValuesTrend(request):
@@ -63,13 +63,11 @@ def getValuesTrend(request):
         # get data id in intervals of 120 (every 10mins)
         for i in range(start, start+721, 120):
             values.append(SensorData.objects.get(id=i))
-            json_values = json.dumps(values)
-        return JsonResponse({'values': json_values}, status=201)
+            serializer = SensorDataSerializer(values, many=True)
+        return JsonResponse({'values': serializer.data}, status=201)
     else:
         values = []
         for i in range(1, value_id+1, 120):  # get data id in intervals of 120 (every 10mins)
             values.append(SensorData.objects.get(id=i))
-            # convert values to JSON and return it  as JSON_RESPONSE
             serializer = SensorDataSerializer(values, many=True)
-            #json_values = json.dumps(values)
         return JsonResponse({'values': serializer.data}, status=201)
