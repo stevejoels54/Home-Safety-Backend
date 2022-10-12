@@ -2,7 +2,7 @@ from django.http import JsonResponse
 from django.views.decorators.http import require_http_methods
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from sensors.models import Sensor, SensorData
+from sensors.models import Sensor, SensorData, Location
 from sensors.serializers import SensorSerializer, SensorDataSerializer
 from rest_framework import status
 import json
@@ -42,6 +42,7 @@ def postSensorData(request):
                 lpg = data['lpg']
                 smoke = data['smoke']
                 temperature = data['temperature']
+                location_id = data['location_id']
                 sensorData = SensorData(
                     lpg=lpg, smoke=smoke, temperature=temperature)
                 sensorData.save()
@@ -51,9 +52,41 @@ def postSensorData(request):
 
     return JsonResponse({'message': "Invalid Data"}, status=401)
 
+
+# Register a new place
+def createLocation(request):
+    if request.method == "POST":
+        try:
+            placeDetails = json.loads(request.body)
+        except:
+            placeDetails = {}
+
+        if Location.objects.get(place_name=placeDetails['place_name']):
+            return JsonResponse({'message': 'Location already exists.'}, status=401)
+        else:
+            try:
+                x_coordinate = placeDetails['x_coordinate']
+                y_coordinate = placeDetails['y_coordinate']
+                place_name = placeDetails['place_name']
+                location = Location(
+                    x_coordinate=x_coordinate, y_coordinate=y_coordinate, place_name=place_name)
+                location.save()
+                return JsonResponse({'message': "Location Saved."}, status=201)
+            except:
+                return JsonResponse({'message': "Invalid location data."}, status=401)
+    return JsonResponse({'message': "Invalid Data"}, status=401)
+
+
+# Get location details
+def getLocations(request):
+    try:
+        places = Location.objects.all()
+        return JsonResponse({'Locations': places}, status=201)
+    except:
+        return JsonResponse({'message': 'First add new locations.'})
+
+
 # get sensor data trend for the last 1 hour in 10 minutes intervals
-
-
 def getValuesTrend(request):
     sensorData = SensorData.objects.all().order_by('-id')[0]
     value_id = sensorData.id
