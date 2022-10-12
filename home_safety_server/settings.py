@@ -105,14 +105,6 @@ WSGI_APPLICATION = 'home_safety_server.wsgi.application'
 #     #     'ENGINE': 'django.db.backends.sqlite3',
 #     #     'NAME': BASE_DIR / 'db.sqlite3',
 #     # }
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': 'dfnmvra958k65p',
-#         'USER': 'xjjxkejtnlwvae',
-#         'PASSWORD': 'd3659ca374492c905830f16e731f964961d139399cfa9141a3190e7c0e9ec0ca',
-#         'HOST': 'ec2-35-170-146-54.compute-1.amazonaws.com',
-#         'PORT':  '5432',
-#     }
 # }
 
 DATABASES = {}
