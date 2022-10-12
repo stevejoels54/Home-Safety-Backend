@@ -100,15 +100,23 @@ WSGI_APPLICATION = 'home_safety_server.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-# DATABASES = {
-#     # 'default': {
-#     #     'ENGINE': 'django.db.backends.sqlite3',
-#     #     'NAME': BASE_DIR / 'db.sqlite3',
-#     # }
-# }
+DATABASES = {
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.sqlite3',
+    #     'NAME': BASE_DIR / 'db.sqlite3',
+    # }
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'daaai5if8g8lng',
+        'USER': 'mliyniqdckbrsy',
+        'PASSWORD': 'a81d3e3f890e1f9df89d45a303f21ef36ba04a66bc679fde2f2d33661562ce21',
+        'HOST': 'ec2-54-87-249-251.compute-1.amazonaws.com',
+        'PORT':  '5432',
+    }
+}
 
-DATABASES = {}
-DATABASES['default'] = dj_database_url.config(conn_max_age=600)
+# DATABASES = {}
+# DATABASES['default'] = dj_database_url.config(conn_max_age=600)
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators

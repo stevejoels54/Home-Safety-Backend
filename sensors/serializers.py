@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from sensors.models import Sensor, SensorData
+from sensors.models import Sensor, SensorData, Location
 
 
 class SensorSerializer(serializers.ModelSerializer):
@@ -14,7 +14,16 @@ class SensorDataSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = SensorData
-        fields = ['id', 'lpg', 'smoke', 'temperature', 'data_timestamp']
+        fields = ['id', 'lpg', 'smoke', 'temperature',
+                  'data_timestamp', 'location_id']
+
+
+class LocationSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Location
+        fields = ['id', 'x_coordinate', 'y_coordinate', 'place_name']
+
 
 # validate the data before saving it to the database
 
