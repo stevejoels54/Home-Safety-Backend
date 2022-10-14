@@ -103,7 +103,7 @@ def createLocation(request):
 # Get location details
 def getLocations(request):
     try:
-        places = Location.objects.all()
+        places = Location.objects.all().order_by('id')
         serializer = LocationSerializer(places, many=True)
         return JsonResponse({'places': serializer.data}, status=200)
     except:
